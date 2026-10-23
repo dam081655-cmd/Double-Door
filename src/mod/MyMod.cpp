@@ -2,10 +2,9 @@
 
 #include <filesystem>
 
+#include <pl/Mod.hpp>
 #include <pl/memory/Hook.hpp>
 #include <pl/memory/Signature.hpp>
-
-#include <pl/Mod.hpp>
 
 namespace clange_me {
 
@@ -29,8 +28,7 @@ bool ClangeMeMod::load() {
 
     if (ec) {
         self.getLogger().error(
-            "Failed to create data directory {}: {}",
-            self.getDataDir().string(),
+            "Failed to create data directory: {}",
             ec.message()
         );
         return false;
@@ -42,8 +40,7 @@ bool ClangeMeMod::load() {
 
     if (ec) {
         self.getLogger().error(
-            "Failed to create config directory {}: {}",
-            self.getConfigDir().string(),
+            "Failed to create config directory: {}",
             ec.message()
         );
         return false;
@@ -58,11 +55,7 @@ bool ClangeMeMod::load() {
 
     mConfig = mConfigFile->value();
 
-    self.getLogger().info(
-        "DoubleDoor loaded from {}",
-        self.getModDir().string()
-    );
-
+    self.getLogger().info("DoubleDoor loaded");
     return true;
 }
 
@@ -71,12 +64,12 @@ bool ClangeMeMod::enable() {
     self.getLogger().debug("Enabling DoubleDoor...");
 
     if (!mConfig.enabled) {
-        self.getLogger().info("DoubleDoor is disabled by config");
+        self.getLogger().info("DoubleDoor disabled by config");
         return true;
     }
 
     self.getLogger().warn(
-        "DoubleDoor: interaction hook is not installed yet."
+        "DoubleDoor: door interaction hook is not implemented yet."
     );
 
     return true;
@@ -104,7 +97,6 @@ bool ClangeMeMod::unload() {
     }
 
     mConfigFile.reset();
-
     return true;
 }
 
