@@ -50,9 +50,7 @@ bool ClangeMeMod::load() {
     mConfigFile.emplace();
 
     if (!mConfigFile->load()) {
-        self.getLogger().warn(
-            "Failed to load typed config"
-        );
+        self.getLogger().warn("Failed to load typed config");
         return false;
     }
 
@@ -71,32 +69,37 @@ bool ClangeMeMod::enable() {
     self.getLogger().debug("Enabling DoubleDoor...");
 
     if (!mConfig.enabled) {
-        self.getLogger().info(
-            "DoubleDoor is disabled by config"
-        );
+        self.getLogger().info("DoubleDoor is disabled by config");
         return true;
     }
 
-    self.getLogger().info(
-        "DoubleDoor initialized. "
-        "Door synchronization is not implemented yet."
+    self.getLogger().warn(
+        "DoubleDoor: interaction hook is not installed yet."
     );
 
     return true;
 }
 
 bool ClangeMeMod::disable() {
-    getSelf().getLogger().debug(
-        "Disabling DoubleDoor..."
-    );
+    auto &self = getSelf();
+    self.getLogger().debug("Disabling DoubleDoor...");
+
+    if (mDoorHook) {
+        mDoorHook->reset();
+        mDoorHook.reset();
+    }
 
     return true;
 }
 
 bool ClangeMeMod::unload() {
-    getSelf().getLogger().debug(
-        "Unloading DoubleDoor..."
-    );
+    auto &self = getSelf();
+    self.getLogger().debug("Unloading DoubleDoor...");
+
+    if (mDoorHook) {
+        mDoorHook->reset();
+        mDoorHook.reset();
+    }
 
     mConfigFile.reset();
 
