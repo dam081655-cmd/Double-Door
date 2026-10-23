@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "mod/Config.h"
-
 #include <pl/Mod.hpp>
 #include <pl/memory/Hook.hpp>
 
@@ -28,9 +27,10 @@ public:
 private:
     ll::mod::NativeMod &mSelf;
     ModConfig mConfig;
+
     std::optional<pl::config::ConfigFile<ModConfig>> mConfigFile;
 
     std::unique_ptr<pl::memory::HookHandle> mDoorHook;
 };
 
-} // namespace clange_me
+}
